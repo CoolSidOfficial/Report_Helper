@@ -1,1 +1,0 @@
-This script is made for helping writing reports .This extract is made for the sole purpose of personal use

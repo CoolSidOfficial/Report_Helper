@@ -1,13 +1,15 @@
+from platform import system
 from pynput import keyboard
 from colorama import Fore,Style,Back,init
 import pyperclip
 import time
 import os
+import pyautogui
 import re
 ############################################################################
 init()
 elements=["Type","Application,","Region,"]
-
+con=True
 class Report_Helper():
     heading0="***\n##"
     heading1="What is "
@@ -43,7 +45,7 @@ class Report_Helper():
                     #Loop over each application type [4]
                     self.heading2+elements[2]+self.heading3+self.join_region,
                   #On the basis of region the market is segmented into region [5]
-                    [f"{self.heading0}{each} {self.title[0]}{self.heading4}" for each in self.region[0].split(",")],
+                    [f"{self.heading0}{each}{self.heading4}" for each in self.region[0].split(",")],
                   #Loop over each region[6]
                    str( self.heading6+self.title[0])# Growth factors of title[7]
                                      ]
@@ -68,12 +70,15 @@ def main():
                                 | |                                  | |              
                                 |_|                                  |_|              
 
-                                                 Version 0.3 
+                                                 Version 0.4 
                                                             BY COOLSID
 """)
   
     print(Fore.RED+Style.BRIGHT+"Please enter description of  your report ")
     description=input("[#>>>]")
+    print(Fore.GREEN+Style.BRIGHT+"Description Copied succesfully".center(80))
+    global start_time
+    start_time=time.time()
     if description=="":
        print("Wrong description")
        main()
@@ -85,14 +90,19 @@ def main():
     return data
 
 def paste_it():
-  control=keyboard.Controller()
-  control.press(keyboard.Key.ctrl)
-  control.press("v")
-  control.release("v")
-  control.release(keyboard.Key.ctrl)
+  pyautogui.hotkey("ctrl","v")
+  # control=keyboard.Controller()
+  # control.press(keyboard.Key.ctrl)
+  # control.press("v")ss
+  # control.release("v")
+  # control.release(keyboard.Key.ctrl)
 def shortcut():
   try:
      word=next(data_in_interator)
+     if not  "On"  in word:
+        if "Other" in word:
+          word=""
+
      pyperclip.copy(word)
      print(Fore.BLUE+Style.BRIGHT+"This has been copied ---"+Style.RESET_ALL,word)
      paste_it()
@@ -100,8 +110,14 @@ def shortcut():
   except StopIteration:
     exit()
 if __name__ == '__main__':
-      data_in_interator=copy_it(main())
-      with keyboard.GlobalHotKeys({"<ctrl>+m":shortcut}) as keys:
-         keys.join() 
+      while con:
+
+        data_in_interator=copy_it(main())
+        with keyboard.GlobalHotKeys({"<ctrl>+m":shortcut}) as keys:
+          keys.join()
+        end_time=time.time()
+        time_taken=int((end_time-start_time)/60)
+        print(Fore.MAGENTA+Style.BRIGHT+f"You completed it in- {time_taken} minutes".center(80))
+        time.sleep(3)
 ## done 
-##Version 0.3
+##Version 0.4
