@@ -1,6 +1,6 @@
 from colorama import Fore,init,Back,Style
 init()
-version=0.6
+version=0.7
 echo_banner=Fore.GREEN+Style.BRIGHT+f'''
 
                      _____                       _     _    _      _                 
